@@ -1,6 +1,11 @@
-const es = require('elasticsearch');
+import React from 'react';
+import { render } from 'react-dom';
+// import { Provider } from 'react-redux';
+// import { createStore } from 'redux';
+// import { toDone } from './reducers';
+import App from './components/App';
 
-const esClient = new es.Client({ host: 'localhost:9200' });
-
-esClient.search({ index: 'bank' })
-  .then(res => console.log(JSON.stringify(res, null, 2)));
+render(
+  <App />,
+  document.getElementById('root')
+);
