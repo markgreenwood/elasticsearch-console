@@ -1,21 +1,17 @@
 import React from 'react';
-import es from 'elasticsearch';
+// import es from 'elasticsearch';
 
-const esClient = new es.Client({ host: 'localhost:9200' });
+// const esClient = new es.Client({ host: 'localhost:9200' });
 
 function App() {
+  const numRecs = 5;
 
-  const html = (numRecs) => (
+  return (
     <div>
       <h1>Hello, Elasticsearch!</h1>
-      <div>
-        <p id="dbStats">Found {numRecs} records</p>
-      </div>
+      <p>Found {numRecs} records</p>
     </div>
   );
-
-  return esClient.search({ index: 'bank' }).then(resp => resp.hits.total)
-    .then(numRecs => html(numRecs));
 }
 
 export default App;
