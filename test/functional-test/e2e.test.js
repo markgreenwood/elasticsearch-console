@@ -22,7 +22,7 @@ describe('home page', () => {
 
   it('gets records from the database', () => {
     return driver.findElement(By.css('#dbStats')).getText()
-      .then(text => expect(text).to.equal('Found 1000 records'));
+      .then(text => expect(text).to.equal('Found 5 records'));
   });
 
   after(() => driver.quit());
