@@ -31191,34 +31191,56 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_elasticsearch__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_elasticsearch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_elasticsearch__);
 
+// import PropTypes from 'prop-types';
+
 
 
 const esClient = new __WEBPACK_IMPORTED_MODULE_1_elasticsearch___default.a.Client({ host: 'localhost:9200' });
 
-function App() {
+class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+  constructor(props) {
+    super(props);
 
-  const html = numRecs => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    'div',
-    null,
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'h1',
-      null,
-      'Hello, Elasticsearch!'
-    ),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    this.state = {
+      loading: true,
+      numRecs: 0
+    };
+
+    this.fetchRecs.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchRecs();
+  }
+
+  async fetchRecs() {
+    const recs = await esClient.search({ index: 'bank' });
+
+    return this.setState({ loading: false, numRecs: recs });
+  }
+
+  render() {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
       null,
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'h1',
+        null,
+        'Hello, Elasticsearch!'
+      ),
+      this.state.loading ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'p',
+        null,
+        'Loading...'
+      ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'p',
         { id: 'dbStats' },
         'Found ',
-        numRecs,
+        this.state.numRecs,
         ' records'
       )
-    )
-  );
-
-  return esClient.search({ index: 'bank' }).then(resp => resp.hits.total).then(numRecs => html(numRecs));
+    );
+  }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (App);
