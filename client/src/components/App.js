@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-
-import es from 'elasticsearch';
-
-const esClient = new es.Client({ host: 'localhost:9200' });
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +18,7 @@ class App extends Component {
   }
 
   async fetchRecs() {
-    const recs = await esClient.search({ index: 'bank' });
+    const recs = await axios.get('/bank/accounts').then(res => res.data.hits.total);
 
     return this.setState({ loading: false, numRecs: recs });
   }

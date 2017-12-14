@@ -1,4 +1,5 @@
 const Hapi = require('hapi');
+const Inert = require('inert');
 const es = require('elasticsearch')
 
 const esClient = new es.Client({ host: 'localhost:9200' });
@@ -6,10 +7,22 @@ const esClient = new es.Client({ host: 'localhost:9200' });
 const server = Hapi.server({ host: 'localhost', port: 3000 });
 
 server.route({
-  path: '/',
+  path: '/healthcheck',
   method: 'GET',
   handler: (request, h) => {
     return 'Hello, World!';
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/{path*}',
+  handler: (request, h) => {
+    if (request.params.path && request.params.path.endsWith('main.js')) {
+      return h.file('public/main.js');
+    }
+
+    return h.file('public/index.html');
   }
 });
 
@@ -18,12 +31,13 @@ server.route({
   method: 'GET',
   handler: async (request, h) => {
     const records = await esClient.search({ index: 'bank', type: 'account' });
-    return records.hits.total;
+    return JSON.stringify(records);
   }
 });
 
 async function startServer(theServer) {
   try {
+    await theServer.register(Inert);
     await theServer.start();
   }
   catch (err) {

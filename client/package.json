@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint .",
     "build": "webpack",
-    "dev": "webpack-dev-server --inline",
+    "dev": "webpack --watch",
+    "start": "webpack-dev-server --inline",
     "ft": "mocha --timeout 10000 test/functional-test/*",
     "test": "mocha test/*"
   },
@@ -43,6 +44,7 @@
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "elasticsearch": "^14.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
