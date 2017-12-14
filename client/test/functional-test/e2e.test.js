@@ -8,7 +8,7 @@ const driver = new webdriver.Builder()
   .build();
 
 describe('home page', () => {
-  before(() => driver.navigate().to('http://localhost:5000'));
+  before(() => driver.navigate().to('http://localhost:3000'));
 
   it('displays a title', () => {
     return driver.getTitle()
@@ -22,7 +22,7 @@ describe('home page', () => {
 
   it('gets records from the database', () => {
     return driver.findElement(By.css('#dbStats')).getText()
-      .then(text => expect(text).to.equal('Found 5 records'));
+      .then(text => expect(text).to.equal('Found 1000 records'));
   });
 
   after(() => driver.quit());
