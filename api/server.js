@@ -1,4 +1,7 @@
 const Hapi = require('hapi');
+const es = require('elasticsearch')
+
+const esClient = new es.Client({ host: 'localhost:9200' });
 
 const server = Hapi.server({ host: 'localhost', port: 3000 });
 
@@ -7,6 +10,15 @@ server.route({
   method: 'GET',
   handler: (request, h) => {
     return 'Hello, World!';
+  }
+});
+
+server.route({
+  path: '/bank/accounts',
+  method: 'GET',
+  handler: async (request, h) => {
+    const records = await esClient.search({ index: 'bank', type: 'account' });
+    return records.hits.total;
   }
 });
 
