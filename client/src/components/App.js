@@ -27,8 +27,10 @@ class App extends Component {
   }
 
   async fetchRecs() {
-    const numRecs = await axios.get('/bank/accounts/count').then(res => res.data.hits.total);
-    const avgBal = await axios.get('/bank/accounts/avg-balance').then(res => res.data.aggregations.avgBalance.value);
+    const [numRecs, avgBal] = await Promise.all([
+      axios.get('/bank/accounts/count').then(res => res.data.hits.total),
+      axios.get('/bank/accounts/avg-balance').then(res => res.data.aggregations.avgBalance.value)
+    ]);
 
     return this.setState({ loading: false, numRecs, avgBal });
   }

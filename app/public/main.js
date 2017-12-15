@@ -21284,8 +21284,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   async fetchRecs() {
-    const numRecs = await __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/bank/accounts/count').then(res => res.data.hits.total);
-    const avgBal = await __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/bank/accounts/avg-balance').then(res => res.data.aggregations.avgBalance.value);
+    const [numRecs, avgBal] = await Promise.all([__WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/bank/accounts/count').then(res => res.data.hits.total), __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/bank/accounts/avg-balance').then(res => res.data.aggregations.avgBalance.value)]);
 
     return this.setState({ loading: false, numRecs, avgBal });
   }
