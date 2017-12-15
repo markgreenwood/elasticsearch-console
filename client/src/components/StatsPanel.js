@@ -6,7 +6,7 @@ import styled from 'styled-components';
 export const StatsPanelStyle = styled.div`
   background-color: #127d5e;
   color: white;
-  font-family: Roboto, sans-serif;
+  font-family: Raleway, sans-serif;
   padding: 10px;
   line-height: normal;
   text-align: center;
