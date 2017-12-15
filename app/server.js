@@ -27,13 +27,34 @@ server.route({
 });
 
 server.route({
-  path: '/bank/accounts',
+  path: '/bank/accounts/count',
   method: 'GET',
   handler: async (request, h) => {
     const records = await esClient.search({ index: 'bank', type: 'account' });
     return JSON.stringify(records);
   }
 });
+
+server.route({
+  path: '/bank/accounts/avg-balance',
+  method: 'GET',
+  handler: async (request, h) => {
+    const avgBalance = await esClient.search({
+      index: 'bank',
+      type: 'account',
+      body: {
+        aggs: {
+          avgBalance: {
+            avg: {
+              field: 'balance'
+            }
+          }
+        }
+      }
+    });
+    return JSON.stringify(avgBalance);
+  }
+})
 
 async function startServer(theServer) {
   try {
