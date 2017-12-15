@@ -37,7 +37,7 @@ class App extends Component {
     const { loading, numRecs, avgBal } = this.state;
 
     return (
-      <div>
+      <div align="center">
         <AppHeading>Hello, Elasticsearch!</AppHeading>
         <StatsPanel
           loading={loading}

@@ -21295,7 +21295,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      null,
+      { align: 'center' },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         AppHeading,
         null,
@@ -24625,6 +24625,7 @@ const StatsPanelStyle = __WEBPACK_IMPORTED_MODULE_2_styled_components__["a" /* d
   padding: 10px;
   line-height: normal;
   text-align: center;
+  max-width: 500px;
 `;
 /* unused harmony export StatsPanelStyle */
 

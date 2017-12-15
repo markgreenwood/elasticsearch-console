@@ -10,6 +10,7 @@ export const StatsPanelStyle = styled.div`
   padding: 10px;
   line-height: normal;
   text-align: center;
+  max-width: 500px;
 `;
 
 export function StatsPanel({ loading, numRecs, avgBal }) {
