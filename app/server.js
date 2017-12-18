@@ -48,6 +48,16 @@ server.route({
             avg: {
               field: 'balance'
             }
+          },
+          minBalance: {
+            min: {
+              field: 'balance'
+            }
+          },
+          maxBalance: {
+            max: {
+              field: 'balance'
+            }
           }
         }
       }
