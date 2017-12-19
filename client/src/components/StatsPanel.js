@@ -14,7 +14,7 @@ export const StatsPanelStyle = styled.div`
   border-radius: 5px;
 `;
 
-export function StatsPanel({ loading, numRecs, avgBal, minBal, maxBal }) {
+export function StatsPanel({ loading, count, avgBalance, minBalance, maxBalance }) {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -26,10 +26,10 @@ export function StatsPanel({ loading, numRecs, avgBal, minBal, maxBal }) {
       { loading ?
         <p>Loading...</p> :
         <div>
-          <p>Found {numRecs} accounts</p>
-          <p>Avg balance {formatter.format(avgBal)}</p>
-          <p>Min balance {formatter.format(minBal)}</p>
-          <p>Max balance {formatter.format(maxBal)}</p>
+          <p>Found {count} accounts</p>
+          <p>Avg balance {formatter.format(avgBalance)}</p>
+          <p>Min balance {formatter.format(minBalance)}</p>
+          <p>Max balance {formatter.format(maxBalance)}</p>
         </div>
       }
     </StatsPanelStyle>
@@ -38,8 +38,8 @@ export function StatsPanel({ loading, numRecs, avgBal, minBal, maxBal }) {
 
 StatsPanel.propTypes = {
   loading: PropTypes.bool,
-  numRecs: PropTypes.number,
-  avgBal: PropTypes.number,
-  minBal: PropTypes.number,
-  maxBal: PropTypes.number,
+  count: PropTypes.number,
+  avgBalance: PropTypes.number,
+  minBalance: PropTypes.number,
+  maxBalance: PropTypes.number,
 };

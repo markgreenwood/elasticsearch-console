@@ -15,10 +15,10 @@ class App extends Component {
 
     this.state = {
       loading: true,
-      numRecs: 0,
-      avgBal: 0,
-      minBal: 0,
-      maxBal: 0
+      count: 0,
+      avgBalance: 0,
+      minBalance: 0,
+      maxBalance: 0
     };
 
     this.fetchRecs.bind(this);
@@ -29,30 +29,30 @@ class App extends Component {
   }
 
   async fetchRecs() {
-    const [numRecs, aggregations] = await Promise.all([
+    const [count, aggregations] = await Promise.all([
       axios.get('/bank/accounts/count').then(res => res.data.hits.total),
       axios.get('/bank/accounts/avg-balance').then(res => res.data.aggregations)
     ]);
 
-    const avgBal = aggregations.avgBalance.value;
-    const minBal = aggregations.minBalance.value;
-    const maxBal = aggregations.maxBalance.value;
+    const avgBalance = aggregations.avgBalance.value;
+    const minBalance = aggregations.minBalance.value;
+    const maxBalance = aggregations.maxBalance.value;
 
-    return this.setState({ loading: false, numRecs, avgBal, minBal, maxBal });
+    return this.setState({ loading: false, count, avgBalance, minBalance, maxBalance });
   }
 
   render() {
-    const { loading, numRecs, avgBal, minBal, maxBal } = this.state;
+    const { loading, count, avgBalance, minBalance, maxBalance } = this.state;
 
     return (
       <div align="center">
         <AppHeading>Hello, Elasticsearch!</AppHeading>
         <StatsPanel
           loading={loading}
-          numRecs={numRecs}
-          avgBal={avgBal}
-          minBal={minBal}
-          maxBal={maxBal}
+          count={count}
+          avgBalance={avgBalance}
+          minBalance={minBalance}
+          maxBalance={maxBalance}
         >
         </StatsPanel>
       </div>
