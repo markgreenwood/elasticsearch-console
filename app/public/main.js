@@ -21272,10 +21272,12 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
     this.state = {
       loading: true,
-      count: 0,
-      avgBalance: 0,
-      minBalance: 0,
-      maxBalance: 0
+      stats: {
+        count: 0,
+        avgBalance: 0,
+        minBalance: 0,
+        maxBalance: 0
+      }
     };
 
     this.fetchRecs.bind(this);
@@ -21292,11 +21294,11 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     const minBalance = aggregations.minBalance.value;
     const maxBalance = aggregations.maxBalance.value;
 
-    return this.setState({ loading: false, count, avgBalance, minBalance, maxBalance });
+    return this.setState({ loading: false, stats: { count, avgBalance, minBalance, maxBalance } });
   }
 
   render() {
-    const { loading, count, avgBalance, minBalance, maxBalance } = this.state;
+    const { loading, stats } = this.state;
 
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
@@ -21308,10 +21310,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__StatsPanel__["a" /* StatsPanel */], {
         loading: loading,
-        count: count,
-        avgBalance: avgBalance,
-        minBalance: minBalance,
-        maxBalance: maxBalance
+        stats: stats
       })
     );
   }
@@ -24638,13 +24637,14 @@ const StatsPanelStyle = __WEBPACK_IMPORTED_MODULE_2_styled_components__["a" /* d
 /* unused harmony export StatsPanelStyle */
 
 
-function StatsPanel({ loading, count, avgBalance, minBalance, maxBalance }) {
+function StatsPanel({ loading, stats }) {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2
   });
 
+  const { count, avgBalance, minBalance, maxBalance } = stats;
   return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     StatsPanelStyle,
     null,
@@ -24686,10 +24686,12 @@ function StatsPanel({ loading, count, avgBalance, minBalance, maxBalance }) {
 
 StatsPanel.propTypes = {
   loading: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
-  count: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
-  avgBalance: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
-  minBalance: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
-  maxBalance: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number
+  stats: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
+    count: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+    avgBalance: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+    minBalance: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number,
+    maxBalance: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number
+  })
 };
 
 /***/ })

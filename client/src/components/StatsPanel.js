@@ -14,13 +14,14 @@ export const StatsPanelStyle = styled.div`
   border-radius: 5px;
 `;
 
-export function StatsPanel({ loading, count, avgBalance, minBalance, maxBalance }) {
+export function StatsPanel({ loading, stats }) {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2
   });
 
+  const { count, avgBalance, minBalance, maxBalance } = stats;
   return (
     <StatsPanelStyle>
       { loading ?
@@ -38,8 +39,10 @@ export function StatsPanel({ loading, count, avgBalance, minBalance, maxBalance 
 
 StatsPanel.propTypes = {
   loading: PropTypes.bool,
-  count: PropTypes.number,
-  avgBalance: PropTypes.number,
-  minBalance: PropTypes.number,
-  maxBalance: PropTypes.number,
+  stats: PropTypes.shape({
+    count: PropTypes.number,
+    avgBalance: PropTypes.number,
+    minBalance: PropTypes.number,
+    maxBalance: PropTypes.number
+  })
 };

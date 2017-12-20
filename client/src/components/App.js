@@ -15,10 +15,12 @@ class App extends Component {
 
     this.state = {
       loading: true,
-      count: 0,
-      avgBalance: 0,
-      minBalance: 0,
-      maxBalance: 0
+      stats: {
+        count: 0,
+        avgBalance: 0,
+        minBalance: 0,
+        maxBalance: 0
+      }
     };
 
     this.fetchRecs.bind(this);
@@ -38,21 +40,18 @@ class App extends Component {
     const minBalance = aggregations.minBalance.value;
     const maxBalance = aggregations.maxBalance.value;
 
-    return this.setState({ loading: false, count, avgBalance, minBalance, maxBalance });
+    return this.setState({ loading: false, stats: { count, avgBalance, minBalance, maxBalance } });
   }
 
   render() {
-    const { loading, count, avgBalance, minBalance, maxBalance } = this.state;
+    const { loading, stats } = this.state;
 
     return (
       <div align="center">
         <AppHeading>Hello, Elasticsearch!</AppHeading>
         <StatsPanel
           loading={loading}
-          count={count}
-          avgBalance={avgBalance}
-          minBalance={minBalance}
-          maxBalance={maxBalance}
+          stats={stats}
         >
         </StatsPanel>
       </div>
