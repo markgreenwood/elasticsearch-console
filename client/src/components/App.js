@@ -31,16 +31,15 @@ class App extends Component {
   }
 
   async fetchRecs() {
-    const [count, aggregations] = await Promise.all([
-      axios.get('/bank/accounts/count').then(res => res.data.hits.total),
-      axios.get('/bank/accounts/avg-balance').then(res => res.data.aggregations)
-    ]);
+    const aggregations = await axios.get('/bank/accounts/stats').then(res => res.data.aggregations);
 
-    const avgBalance = aggregations.avgBalance.value;
-    const minBalance = aggregations.minBalance.value;
-    const maxBalance = aggregations.maxBalance.value;
+    const count = aggregations.acctStats.count;
+    const avgBalance = aggregations.acctStats.avg;
+    const minBalance = aggregations.acctStats.min;
+    const maxBalance = aggregations.acctStats.max;
+    const sumBalance = aggregations.acctStats.sum;
 
-    return this.setState({ loading: false, stats: { count, avgBalance, minBalance, maxBalance } });
+    return this.setState({ loading: false, stats: { count, avgBalance, minBalance, maxBalance, sumBalance } });
   }
 
   render() {

@@ -36,7 +36,7 @@ server.route({
 });
 
 server.route({
-  path: '/bank/accounts/avg-balance',
+  path: '/bank/accounts/stats',
   method: 'GET',
   handler: async (request, h) => {
     const avgBalance = await esClient.search({
@@ -44,18 +44,8 @@ server.route({
       type: 'account',
       body: {
         aggs: {
-          avgBalance: {
-            avg: {
-              field: 'balance'
-            }
-          },
-          minBalance: {
-            min: {
-              field: 'balance'
-            }
-          },
-          maxBalance: {
-            max: {
+          acctStats: {
+            stats: {
               field: 'balance'
             }
           }

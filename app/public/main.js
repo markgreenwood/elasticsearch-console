@@ -21288,13 +21288,15 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
   }
 
   async fetchRecs() {
-    const [count, aggregations] = await Promise.all([__WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/bank/accounts/count').then(res => res.data.hits.total), __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/bank/accounts/avg-balance').then(res => res.data.aggregations)]);
+    const aggregations = await __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/bank/accounts/stats').then(res => res.data.aggregations);
 
-    const avgBalance = aggregations.avgBalance.value;
-    const minBalance = aggregations.minBalance.value;
-    const maxBalance = aggregations.maxBalance.value;
+    const count = aggregations.acctStats.count;
+    const avgBalance = aggregations.acctStats.avg;
+    const minBalance = aggregations.acctStats.min;
+    const maxBalance = aggregations.acctStats.max;
+    const sumBalance = aggregations.acctStats.sum;
 
-    return this.setState({ loading: false, stats: { count, avgBalance, minBalance, maxBalance } });
+    return this.setState({ loading: false, stats: { count, avgBalance, minBalance, maxBalance, sumBalance } });
   }
 
   render() {
@@ -24613,6 +24615,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export StatsItem */
 /* harmony export (immutable) */ __webpack_exports__["a"] = StatsPanel;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
@@ -24637,14 +24640,72 @@ const StatsPanelStyle = __WEBPACK_IMPORTED_MODULE_2_styled_components__["a" /* d
 /* unused harmony export StatsPanelStyle */
 
 
-function StatsPanel({ loading, stats }) {
+const Column = props => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+  'div',
+  { className: `col-sm pull-${props.align}`, style: { textAlign: props.align } },
+  props.children
+);
+
+Column.propTypes = {
+  children: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.node,
+  align: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string
+};
+
+Column.defaultProps = {
+  children: '',
+  align: 'left'
+};
+
+const Row = props => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+  'div',
+  { className: 'row' },
+  props.children
+);
+
+Row.propTypes = {
+  children: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.node
+};
+
+Row.defaultProps = {
+  children: ''
+};
+
+function StatsItem({ label, value }) {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2
   });
 
-  const { count, avgBalance, minBalance, maxBalance } = stats;
+  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    Row,
+    null,
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      Column,
+      { align: 'left' },
+      label
+    ),
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      Column,
+      { align: 'right' },
+      formatter.format(value)
+    )
+  );
+}
+
+StatsItem.propTypes = {
+  label: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+  value: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string
+};
+
+StatsItem.defaultProps = {
+  label: 'label',
+  value: 'value'
+};
+
+function StatsPanel({ loading, stats }) {
+  const { count, avgBalance, minBalance, maxBalance, sumBalance } = stats;
+
   return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     StatsPanelStyle,
     null,
@@ -24662,24 +24723,10 @@ function StatsPanel({ loading, stats }) {
         count,
         ' accounts'
       ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'p',
-        null,
-        'Avg balance ',
-        formatter.format(avgBalance)
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'p',
-        null,
-        'Min balance ',
-        formatter.format(minBalance)
-      ),
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'p',
-        null,
-        'Max balance ',
-        formatter.format(maxBalance)
-      )
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(StatsItem, { label: 'Average account balance', value: avgBalance }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(StatsItem, { label: 'Minimum account balance', value: minBalance }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(StatsItem, { label: 'Maximum account balance', value: maxBalance }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(StatsItem, { label: 'Total balance of all accounts', value: sumBalance })
     )
   );
 }
