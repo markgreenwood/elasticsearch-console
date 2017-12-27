@@ -1,17 +1,17 @@
 const Hapi = require('hapi');
 const Inert = require('inert');
-const es = require('elasticsearch')
-
-const esClient = new es.Client({ host: 'localhost:9200' });
-
+const pkg = require('./package.json');
+const bankRoutes = require('./lib/bank/routes');
 const server = Hapi.server({ host: 'localhost', port: 3000 });
 
 server.route({
   path: '/healthcheck',
   method: 'GET',
-  handler: (request, h) => {
-    return 'Hello, World!';
-  }
+  handler: () => ({
+    status: 'ok',
+    service: 'elasticsearch-console',
+    version: pkg.version
+  })
 });
 
 server.route({
@@ -26,35 +26,7 @@ server.route({
   }
 });
 
-server.route({
-  path: '/bank/accounts/count',
-  method: 'GET',
-  handler: async (request, h) => {
-    const records = await esClient.search({ index: 'bank', type: 'account' });
-    return JSON.stringify(records);
-  }
-});
-
-server.route({
-  path: '/bank/accounts/stats',
-  method: 'GET',
-  handler: async (request, h) => {
-    const avgBalance = await esClient.search({
-      index: 'bank',
-      type: 'account',
-      body: {
-        aggs: {
-          acctStats: {
-            stats: {
-              field: 'balance'
-            }
-          }
-        }
-      }
-    });
-    return JSON.stringify(avgBalance);
-  }
-})
+server.route(bankRoutes);
 
 async function startServer(theServer) {
   try {

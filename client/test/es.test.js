@@ -1,5 +1,6 @@
 const es = require('elasticsearch');
 const assert = require('assert');
+const eb = require('elastic-builder');
 
 describe('elasticsearch', () => {
   const esClient = new es.Client({ host: 'localhost:9200' });
