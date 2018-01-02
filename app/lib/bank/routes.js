@@ -1,40 +1,24 @@
 const es = require('elasticsearch');
-const list = require('./handlers/list');
+const handlers = require('./handlers');
 
 const esClient = new es.Client({ host: 'localhost:9200' });
+
+const { stats, list, count } = handlers(esClient);
 
 module.exports = [
   {
     path: '/bank/accounts/count',
     method: 'GET',
-    handler: async () => {
-      const records = await esClient.search({ index: 'bank', type: 'account' });
-      return JSON.stringify(records);
-    }
+    handler: count
   },
   {
     path: '/bank/accounts/stats',
     method: 'GET',
-    handler: async () => {
-      const acctStats = await esClient.search({
-        index: 'bank',
-        type: 'account',
-        body: {
-          aggs: {
-            acctStats: {
-              stats: {
-                field: 'balance'
-              }
-            }
-          }
-        }
-      });
-      return JSON.stringify(acctStats);
-    }
+    handler: stats
   },
   {
     path: '/bank/accounts',
     method: 'GET',
-    handler: list(esClient)
+    handler: list
   }
 ];

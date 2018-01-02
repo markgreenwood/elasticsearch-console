@@ -8,7 +8,7 @@ module.exports = {
     path: path.join(__dirname, '../app/public'),
     filename: 'main.js',
   },
-  devtool: 'source-map',
+  devtool: 'cheap-eval-source-map',
   devServer: {
     inline:true,
     port: 5000

@@ -70,10 +70,10 @@ export function StatsPanel({ loading, stats }) {
         <p>Loading...</p> :
         <div>
           <p>Found {count} accounts</p>
-          <StatsItem label="Average account balance" value={avgBalance} />
-          <StatsItem label="Minimum account balance" value={minBalance} />
-          <StatsItem label="Maximum account balance" value={maxBalance} />
-          <StatsItem label="Total balance of all accounts" value={sumBalance} />
+          <StatsItem label="Average account balance" value={`${avgBalance}`} />
+          <StatsItem label="Minimum account balance" value={`${minBalance}`} />
+          <StatsItem label="Maximum account balance" value={`${maxBalance}`} />
+          <StatsItem label="Total balance of all accounts" value={`${sumBalance}`} />
         </div>
       }
     </StatsPanelStyle>

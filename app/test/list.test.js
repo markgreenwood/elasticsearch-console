@@ -15,7 +15,7 @@ describe('list handler', () => {
       })
   );
 
-  it('takes a size argument', () =>
+  it.skip('takes a size argument', () =>
     lister({ query: { size: 20 } })
       .then(() => {
         expect(client.search.calledWith({ query: { size: 20 } })).to.be.true;
